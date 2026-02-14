@@ -1,40 +1,31 @@
-import { Accordion, AccordionDetails, AccordionSummary, Card, CardContent, Chip, Stack, Typography } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Alert, Skeleton, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import api from '../../services/api';
+import { reportApi } from '@services/api';
+import type { ExamResult } from '@types/index';
+import { ResultPanel } from '@components/Result/ResultPanel';
 
 const ResultPage = () => {
-  const { id } = useParams();
-  const [result, setResult] = useState<any>(null);
+  const { id = '' } = useParams();
+  const [result, setResult] = useState<ExamResult | null>(null);
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    api.get('/reports').then(({ data }) => {
-      const matched = data.find((item: any) => item.exam && item.exam._id === id) || data[0];
-      setResult(matched);
-    });
+    reportApi.getReports().then((reports) => {
+      const selected = reports.find((report) => report._id === id);
+      if (!selected) throw new Error('Result not found');
+      setResult(selected);
+    }).catch(() => setError('Could not load result'));
   }, [id]);
 
-  if (!result) return <Typography>Loading result...</Typography>;
+  if (error) return <Alert severity="error">{error}</Alert>;
+  if (!result) return <Skeleton variant="rounded" height={300} />;
 
   return (
-    <Stack spacing={2}>
-      <Card>
-        <CardContent>
-          <Typography variant="h4" fontWeight={800}>AI Improvement Insights</Typography>
-          <Typography>{result.personalizedFeedback}</Typography>
-          <Stack direction="row" spacing={1} mt={2}>{result.weakAreas?.map((w: string) => <Chip key={w} label={`Weak: ${w}`} color="warning" />)}</Stack>
-        </CardContent>
-      </Card>
-      <Accordion defaultExpanded>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}><Typography>Topics to Revise</Typography></AccordionSummary>
-        <AccordionDetails><Stack>{result.topicsToRevise?.map((t: string) => <Typography key={t}>• {t}</Typography>)}</Stack></AccordionDetails>
-      </Accordion>
-      <Accordion>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}><Typography>Suggested Practice Plan</Typography></AccordionSummary>
-        <AccordionDetails><Stack>{result.practicePlan?.map((p: string) => <Typography key={p}>• {p}</Typography>)}</Stack></AccordionDetails>
-      </Accordion>
-    </Stack>
+    <>
+      <Typography variant="h4" fontWeight={700} mb={2}>Exam Result & AI Evaluation</Typography>
+      <ResultPanel result={result} />
+    </>
   );
 };
 
