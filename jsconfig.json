@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "baseUrl": "src",
+    "paths": {
+      "@react": ["components/common/*"],
+      "@common": ["components/common/mui/components/*"],
+      "@icon": ["components/common/mui/icons/*"],
+      "@constants": ["constants/*"],
+      "@features": ["features/*"]
+    }
+  },
+  "include": ["src"]
+}
