@@ -3,18 +3,14 @@ import {
     Box,
     Button,
     CircularProgress,
+    CommonModal,
     Container,
-    Dialog,
-    DialogActions,
-    DialogContent,
     DialogContentText,
-    DialogTitle,
     Paper,
     useTheme
 } from "@common";
-import { useCallback, useEffect, useState } from "@react";
+import { useCallback, useEffect, useNavigate, useParams, useState } from "@react";
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from "@react";
 
 import InterviewHeader from './InterviewHeader';
 import ProgressBar from './ProgressBar';
@@ -345,21 +341,25 @@ const InterviewSession = () => {
             </Container>
 
             {/* Submit Confirmation Dialog */}
-            <Dialog open={submitDialog} onClose={() => setSubmitDialog(false)}>
-                <DialogTitle>Submit Assessment?</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        Are you sure you want to submit your assessment?
-                        You have answered {Object.keys(answers).length} out of {questions.length} questions.
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={() => setSubmitDialog(false)}>Cancel</Button>
-                    <Button onClick={confirmSubmit} variant="contained" color="primary">
-                        Submit
-                    </Button>
-                </DialogActions>
-            </Dialog>
+            {/* Submit Confirmation Dialog */}
+            <CommonModal
+                open={submitDialog}
+                onClose={() => setSubmitDialog(false)}
+                title="Submit Assessment?"
+                actions={
+                    <>
+                        <Button onClick={() => setSubmitDialog(false)}>Cancel</Button>
+                        <Button onClick={confirmSubmit} variant="contained" color="primary">
+                            Submit
+                        </Button>
+                    </>
+                }
+            >
+                <DialogContentText>
+                    Are you sure you want to submit your assessment?
+                    You have answered {Object.keys(answers).length} out of {questions.length} questions.
+                </DialogContentText>
+            </CommonModal>
         </Box>
     );
 };

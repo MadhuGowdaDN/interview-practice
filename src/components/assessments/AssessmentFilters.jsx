@@ -1,21 +1,18 @@
 import {
-    Clear as ClearIcon,
-    FilterList as FilterIcon
-} from "@icon";
-import {
     alpha,
     Box,
     Button,
     Chip,
-    FormControl,
-    InputLabel,
-    MenuItem,
+    CommonSelect,
     Popover,
-    Select,
     Slider,
-    Typography
+    Typography,
+    useTheme
 } from "@common";
-import { useTheme } from "@common";
+import {
+    Clear as ClearIcon,
+    FilterList as FilterIcon
+} from "@icon";
 import { useState } from "@react";
 
 const AssessmentFilters = ({ filters, onFilterChange, difficultyLevels, availableSkills, questionTypes }) => {
@@ -122,39 +119,39 @@ const AssessmentFilters = ({ filters, onFilterChange, difficultyLevels, availabl
                     Filter Assessments
                 </Typography>
 
-                <FormControl fullWidth size="small" sx={{ mb: 3 }}>
-                    <InputLabel>Skills</InputLabel>
-                    <Select
-                        multiple
-                        value={filters.skills}
-                        onChange={handleSkillChange}
-                        label="Skills"
-                        renderValue={(selected) => selected.join(', ')}
-                    >
-                        {availableSkills.map((skill) => (
-                            <MenuItem key={skill} value={skill}>
-                                {skill}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
+                <CommonSelect
+                    label="Skills"
+                    name="skills"
+                    multiple
+                    value={filters.skills}
+                    onChange={handleSkillChange}
+                    renderValue={(selected) => selected.join(', ')}
+                    sx={{ mb: 3 }}
+                    size="small"
+                >
+                    {availableSkills.map((skill) => (
+                        <MenuItem key={skill} value={skill}>
+                            {skill}
+                        </MenuItem>
+                    ))}
+                </CommonSelect>
 
-                <FormControl fullWidth size="small" sx={{ mb: 3 }}>
-                    <InputLabel>Question Types</InputLabel>
-                    <Select
-                        multiple
-                        value={filters.questionTypes}
-                        onChange={handleQuestionTypeChange}
-                        label="Question Types"
-                        renderValue={(selected) => selected.join(', ')}
-                    >
-                        {questionTypes.map((type) => (
-                            <MenuItem key={type} value={type}>
-                                {type}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
+                <CommonSelect
+                    label="Question Types"
+                    name="questionTypes"
+                    multiple
+                    value={filters.questionTypes}
+                    onChange={handleQuestionTypeChange}
+                    renderValue={(selected) => selected.join(', ')}
+                    sx={{ mb: 3 }}
+                    size="small"
+                >
+                    {questionTypes.map((type) => (
+                        <MenuItem key={type} value={type}>
+                            {type}
+                        </MenuItem>
+                    ))}
+                </CommonSelect>
 
                 <Box sx={{ mb: 3 }}>
                     <Typography variant="body2" color="text.secondary" gutterBottom>

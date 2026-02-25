@@ -1,3 +1,23 @@
+import {
+    alpha,
+    Avatar,
+    Box,
+    CardActions,
+    CardContent,
+    Chip,
+    CommonButton,
+    Grid,
+    IconButton,
+    LinearProgress,
+    ListItemIcon,
+    ListItemText,
+    Menu,
+    MenuItem,
+    Rating,
+    Tooltip,
+    Typography,
+    useTheme
+} from "@common";
 import { getAssessmentById } from '@features';
 import {
     Assessment as AssessmentIcon,
@@ -8,29 +28,8 @@ import {
     Refresh as RefreshIcon,
     PlayArrow as StartIcon
 } from "@icon";
-import {
-    alpha,
-    Avatar,
-    Box,
-    Button,
-    CardActions,
-    CardContent,
-    Chip,
-    Grid,
-    IconButton,
-    LinearProgress,
-    ListItemIcon,
-    ListItemText,
-    Menu,
-    MenuItem,
-    Rating,
-    Tooltip,
-    Typography
-} from "@common";
-import { useTheme } from "@common";
-import { useState } from "@react";
+import { useNavigate, useState } from "@react";
 import { useDispatch } from 'react-redux';
-import { useNavigate } from "@react";
 import DifficultyChip from './DifficultyChip';
 import QuestionTypeIcon from './QuestionTypeIcon';
 import { StyledCard } from './styled/AssessmentStyled';
@@ -248,22 +247,22 @@ const AssessmentCard = ({ assessment, onStart, onBookmark, onEdit, onDelete, onD
             {/* Actions */}
             <CardActions sx={{ p: 2, pt: 0, justifyContent: 'space-between' }}>
                 <Box>
-                    <Button
+                    <CommonButton
                         size="small"
                         startIcon={assessment.status === 'draft' ? <EditIcon /> : <StartIcon />}
                         color="primary"
                         onClick={() => handleStartClick(assessment?._id)}
                     >
                         {assessment.status === 'draft' ? 'Edit Draft' : 'Start'}
-                    </Button>
+                    </CommonButton>
                     {assessment.status === 'active' && (
-                        <Button
+                        <CommonButton
                             size="small"
                             startIcon={<RefreshIcon />}
                             onClick={() => navigate(`/assessments/${assessment.id}/retake`)}
                         >
                             Retake
-                        </Button>
+                        </CommonButton>
                     )}
                 </Box>
                 <Box>

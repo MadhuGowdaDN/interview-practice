@@ -3,16 +3,15 @@ import {
     Alert,
     Avatar,
     Box,
-    Button, CommonTextField, Divider,
-    Paper,
-    Typography
+    CommonButton,
+    CommonCard, CommonHeading, CommonText,
+    CommonTextField, Divider
 } from '@common';
 import { loginUser } from '@features';
 import { School as SchoolIcon } from '@icon';
-import { styled } from "@common";
+import { useNavigate } from "@react";
 import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from "@react";
 import * as Yup from "yup";
 import LoginFooter from './LoginFooter';
 import SocialLoginButtons from './SocialLoginButtons';
@@ -22,16 +21,7 @@ const validationSchema = Yup.object({
     password: Yup.string().required("Password is required").nullable()
         .min(6, "Password must be at least 6 characters"),
 })
-const StyledPaper = styled(Paper)(({ theme }) => ({
-    padding: theme.spacing(4),
-    borderRadius: theme.spacing(2),
-    background: 'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.98) 100%)',
-    backdropFilter: 'blur(10px)',
-    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-    [theme.breakpoints.down('sm')]: {
-        padding: theme.spacing(3),
-    },
-}));
+// ==========================================================================================================
 // ==========================================================================================================
 
 const LoginForm = ({ externalError, setExternalError, onToggleView }) => {
@@ -70,7 +60,7 @@ const LoginForm = ({ externalError, setExternalError, onToggleView }) => {
 
     return (
         <Box sx={{ width: '100%', maxWidth: 450, mx: 'auto' }}>
-            <StyledPaper elevation={3}>
+            <CommonCard>
                 <Box sx={{ textAlign: 'center', mb: 4 }}>
                     <Avatar
                         sx={{
@@ -83,12 +73,12 @@ const LoginForm = ({ externalError, setExternalError, onToggleView }) => {
                     >
                         <SchoolIcon sx={{ fontSize: 40 }} />
                     </Avatar>
-                    <Typography variant="h4" sx={{ fontWeight: 700, mb: 1 }}>
+                    <CommonHeading variant="h4" sx={{ mb: 1 }}>
                         Welcome Back!
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
+                    </CommonHeading>
+                    <CommonText variant="body2" muted={true}>
                         Sign in to continue your interview preparation
-                    </Typography>
+                    </CommonText>
                 </Box>
 
                 {externalError && (
@@ -129,33 +119,28 @@ const LoginForm = ({ externalError, setExternalError, onToggleView }) => {
                         showForgotPassword={true}
                     />
 
-                    <Button
+                    <CommonButton
                         type="submit"
                         fullWidth
-                        variant="contained"
                         size="large"
-                        disabled={isLoading}
+                        isLoading={isLoading}
                         sx={{
                             py: 1.5,
                             borderRadius: 2,
                             textTransform: 'none',
                             fontSize: '1.1rem',
-                            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                            '&:hover': {
-                                background: 'linear-gradient(135deg, #667eea 20%, #764ba2 120%)',
-                            },
                         }}
                         onClick={handleSubmit}
                     >
-                        {isLoading ? 'Signing in...' : 'Sign In'}
-                    </Button>
+                        Sign In
+                    </CommonButton>
 
                     <Divider sx={{ my: 3 }}>OR</Divider>
 
                     <SocialLoginButtons disabled={isLoading} />
                     <LoginFooter onToggleView={onToggleView} />
                 </form>
-            </StyledPaper>
+            </CommonCard>
         </Box>
     );
 };

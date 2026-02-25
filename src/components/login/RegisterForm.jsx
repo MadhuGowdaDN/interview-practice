@@ -3,38 +3,28 @@ import {
     Alert,
     Avatar,
     Box,
-    Button,
+    CommonButton,
+    CommonCard,
+    CommonHeading,
+    CommonText,
     Divider,
     Grid,
-    Paper,
     Step,
     StepLabel,
     Stepper,
     TextField,
-    Typography,
 } from '@common';
 import { createUser } from '@features';
 import {
     PersonAdd as PersonAddIcon
 } from '@icon';
-import { styled } from "@common";
-import { useState } from "@react";
+import { useNavigate, useState } from "@react";
 import { useDispatch } from 'react-redux';
-import { useNavigate } from "@react";
 import PasswordField from './PasswordField';
 import RegisterFooter from './RegisterFooter';
 import SocialLoginButtons from './SocialLoginButtons';
 
-const StyledPaper = styled(Paper)(({ theme }) => ({
-    padding: theme.spacing(4),
-    borderRadius: theme.spacing(2),
-    background: 'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.98) 100%)',
-    backdropFilter: 'blur(10px)',
-    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-    [theme.breakpoints.down('sm')]: {
-        padding: theme.spacing(3),
-    },
-}));
+// Remove StyledPaper definition as we use CommonCard now
 
 const steps = ['Account Details', 'Personal Info', 'Preferences'];
 
@@ -287,12 +277,12 @@ const RegisterForm = ({ onRegister, externalError, setExternalError, onToggleVie
             case 2:
                 return (
                     <Box>
-                        <Typography variant="subtitle1" gutterBottom sx={{ fontWeight: 600 }}>
+                        <CommonHeading variant="subtitle1" gutterBottom={true}>
                             Experience Level
-                        </Typography>
+                        </CommonHeading>
                         <Box sx={{ display: 'flex', gap: 2, mb: 3, flexWrap: 'wrap' }}>
                             {['beginner', 'intermediate', 'advanced'].map((level) => (
-                                <Button
+                                <CommonButton
                                     key={level}
                                     variant={formData.experienceLevel === level ? 'contained' : 'outlined'}
                                     onClick={() => handleChange({ target: { name: 'experienceLevel', value: level } })}
@@ -302,16 +292,16 @@ const RegisterForm = ({ onRegister, externalError, setExternalError, onToggleVie
                                     }}
                                 >
                                     {level}
-                                </Button>
+                                </CommonButton>
                             ))}
                         </Box>
 
-                        <Typography variant="subtitle1" gutterBottom sx={{ fontWeight: 600 }}>
+                        <CommonHeading variant="subtitle1" gutterBottom={true}>
                             Preferred Roles (Select all that apply)
-                        </Typography>
+                        </CommonHeading>
                         <Box sx={{ display: 'flex', gap: 1, mb: 3, flexWrap: 'wrap' }}>
                             {['Frontend', 'Backend', 'Full Stack', 'DevOps', 'Data Science', 'Mobile'].map((role) => (
-                                <Button
+                                <CommonButton
                                     key={role}
                                     variant={formData.preferredRoles.includes(role.toLowerCase()) ? 'contained' : 'outlined'}
                                     onClick={() => {
@@ -326,7 +316,7 @@ const RegisterForm = ({ onRegister, externalError, setExternalError, onToggleVie
                                     }}
                                 >
                                     {role}
-                                </Button>
+                                </CommonButton>
                             ))}
                         </Box>
 
@@ -351,9 +341,9 @@ const RegisterForm = ({ onRegister, externalError, setExternalError, onToggleVie
                                 onChange={handleChange}
                                 style={{ width: 18, height: 18 }}
                             />
-                            <Typography variant="body2">
+                            <CommonText variant="body2">
                                 Send me interview tips and updates
-                            </Typography>
+                            </CommonText>
                         </Box>
                     </Box>
                 );
@@ -365,7 +355,7 @@ const RegisterForm = ({ onRegister, externalError, setExternalError, onToggleVie
 
     return (
         <Box sx={{ width: '100%', maxWidth: 550, mx: 'auto' }}>
-            <StyledPaper elevation={3}>
+            <CommonCard>
                 <Box sx={{ textAlign: 'center', mb: 4 }}>
                     <Avatar
                         sx={{
@@ -378,12 +368,12 @@ const RegisterForm = ({ onRegister, externalError, setExternalError, onToggleVie
                     >
                         <PersonAddIcon sx={{ fontSize: 40 }} />
                     </Avatar>
-                    <Typography variant="h4" sx={{ fontWeight: 700, mb: 1 }}>
+                    <CommonHeading variant="h4" sx={{ mb: 1 }}>
                         Create Account
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
+                    </CommonHeading>
+                    <CommonText variant="body2" muted={true}>
                         Join thousands of successful candidates
-                    </Typography>
+                    </CommonText>
                 </Box>
 
                 <Stepper activeStep={activeStep} sx={{ mb: 4 }}>
@@ -404,32 +394,28 @@ const RegisterForm = ({ onRegister, externalError, setExternalError, onToggleVie
                     {renderStepContent(activeStep)}
 
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 3 }}>
-                        <Button
+                        <CommonButton
                             onClick={handleBack}
                             disabled={activeStep === 0 || isLoading}
                             sx={{ borderRadius: 2 }}
                         >
                             Back
-                        </Button>
-                        <Button
+                        </CommonButton>
+                        <CommonButton
                             type="submit"
                             variant="contained"
-                            disabled={isLoading}
+                            isLoading={isLoading}
                             sx={{
                                 py: 1,
                                 px: 4,
                                 borderRadius: 2,
                                 textTransform: 'none',
-                                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                                '&:hover': {
-                                    background: 'linear-gradient(135deg, #667eea 20%, #764ba2 120%)',
-                                },
                             }}
                         >
                             {activeStep === steps.length - 1
-                                ? (isLoading ? 'Creating Account...' : 'Create Account')
+                                ? 'Create Account'
                                 : 'Next'}
-                        </Button>
+                        </CommonButton>
                     </Box>
 
                     {activeStep === 0 && (
@@ -441,7 +427,7 @@ const RegisterForm = ({ onRegister, externalError, setExternalError, onToggleVie
                 </form>
 
                 <RegisterFooter onToggleView={onToggleView} />
-            </StyledPaper>
+            </CommonCard>
         </Box>
     );
 };

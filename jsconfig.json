@@ -5,11 +5,17 @@
     "moduleResolution": "bundler",
     "baseUrl": "src",
     "paths": {
-      "@react": ["components/common/*"],
-      "@common": ["components/common/mui/components/*"],
-      "@icon": ["components/common/mui/icons/*"],
-      "@constants": ["constants/*"],
-      "@features": ["features/*"]
+      "@/*": ["./*"],
+      "@react": ["components/common"],
+      "@react/*": ["components/common/*"],
+      "@common": ["components/common/mui/components"],
+      "@common/*": ["components/common/mui/components/*"],
+      "@icon": ["components/common/mui/icons"],
+      "@icon/*": ["components/common/mui/icons/*"],
+      "@constants": ["constants"],
+      "@constants/*": ["constants/*"],
+      "@features": ["features"],
+      "@features/*": ["features/*"]
     }
   },
   "include": ["src"]

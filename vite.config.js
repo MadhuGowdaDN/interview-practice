@@ -38,8 +38,8 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
-      "@react": path.resolve(__dirname, "./src/components/common"),
-      "@common": path.resolve(__dirname, "./src/components/common/mui/components"),
+      "@react": path.resolve(__dirname, "./src/components/common/react"),
+      "@common": path.resolve(__dirname, "./src/components/common"),
       "@icon": path.resolve(__dirname, "./src/components/common/mui/icons"),
       "@constants": path.resolve(__dirname, "./src/constants"),
       "@features": path.resolve(__dirname, "./src/features"),

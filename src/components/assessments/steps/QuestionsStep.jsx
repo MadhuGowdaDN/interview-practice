@@ -1,25 +1,23 @@
 // components/assessments/steps/QuestionsStep.jsx
 import {
+    Box,
+    Button,
+    CommonSelect,
+    Divider,
+    Grid,
+    IconButton,
+    MenuItem,
+    Paper,
+    TextField,
+    Typography,
+    alpha,
+    useTheme
+} from "@common";
+import {
     Add as AddIcon,
     Delete as DeleteIcon,
     DragIndicator as DragIcon
 } from "@icon";
-import {
-    Box,
-    Button,
-    Divider,
-    FormControl,
-    Grid,
-    IconButton,
-    InputLabel,
-    MenuItem,
-    Paper,
-    Select,
-    TextField,
-    Typography,
-    alpha
-} from "@common";
-import { useTheme } from "@common";
 import React from "@react";
 import QuestionTypeIcon from '../QuestionTypeIcon';
 
@@ -245,70 +243,70 @@ const QuestionsStep = ({ formData, updateFormData, questionTypes, onNext, onBack
 
                         {/* Difficulty */}
                         <Grid item xs={6} sm={3}>
-                            <FormControl fullWidth size="small">
-                                <InputLabel>Difficulty</InputLabel>
-                                <Select
-                                    value={questionConfigs[type]?.difficulty || 'medium'}
-                                    onChange={(e) => updateConfig(type, 'difficulty', e.target.value)}
-                                    label="Difficulty"
-                                >
-                                    <MenuItem value="easy">Easy</MenuItem>
-                                    <MenuItem value="medium">Medium</MenuItem>
-                                    <MenuItem value="hard">Hard</MenuItem>
-                                </Select>
-                            </FormControl>
+                            <CommonSelect
+                                name={`difficulty-${type}`}
+                                label="Difficulty"
+                                value={questionConfigs[type]?.difficulty || 'medium'}
+                                onChange={(e) => updateConfig(type, 'difficulty', e.target.value)}
+                                size="small"
+                                sx={{ mb: 0 }}
+                            >
+                                <MenuItem value="easy">Easy</MenuItem>
+                                <MenuItem value="medium">Medium</MenuItem>
+                                <MenuItem value="hard">Hard</MenuItem>
+                            </CommonSelect>
                         </Grid>
 
                         {/* Type-specific configurations */}
                         {type === 'Coding' && (
                             <Grid item xs={12}>
-                                <FormControl fullWidth size="small">
-                                    <InputLabel>Programming Languages</InputLabel>
-                                    <Select
-                                        multiple
-                                        value={questionConfigs[type]?.languages || []}
-                                        onChange={(e) => updateConfig(type, 'languages', e.target.value)}
-                                        label="Programming Languages"
-                                        renderValue={(selected) => selected.join(', ')}
-                                    >
-                                        <MenuItem value="javascript">JavaScript</MenuItem>
-                                        <MenuItem value="python">Python</MenuItem>
-                                        <MenuItem value="java">Java</MenuItem>
-                                        <MenuItem value="csharp">C#</MenuItem>
-                                        <MenuItem value="go">Go</MenuItem>
-                                        <MenuItem value="rust">Rust</MenuItem>
-                                    </Select>
-                                </FormControl>
+                                <CommonSelect
+                                    name={`languages-${type}`}
+                                    label="Programming Languages"
+                                    multiple
+                                    value={questionConfigs[type]?.languages || []}
+                                    onChange={(e) => updateConfig(type, 'languages', e.target.value)}
+                                    renderValue={(selected) => selected.join(', ')}
+                                    size="small"
+                                    sx={{ mb: 0 }}
+                                >
+                                    <MenuItem value="javascript">JavaScript</MenuItem>
+                                    <MenuItem value="python">Python</MenuItem>
+                                    <MenuItem value="java">Java</MenuItem>
+                                    <MenuItem value="csharp">C#</MenuItem>
+                                    <MenuItem value="go">Go</MenuItem>
+                                    <MenuItem value="rust">Rust</MenuItem>
+                                </CommonSelect>
                             </Grid>
                         )}
 
                         {type === 'Multiple Choice' && (
                             <Grid item xs={12}>
                                 <Box sx={{ display: 'flex', gap: 2 }}>
-                                    <FormControl fullWidth size="small">
-                                        <InputLabel>Options per Question</InputLabel>
-                                        <Select
-                                            value={questionConfigs[type]?.options || 4}
-                                            onChange={(e) => updateConfig(type, 'options', e.target.value)}
-                                            label="Options per Question"
-                                        >
-                                            <MenuItem value={2}>2 Options</MenuItem>
-                                            <MenuItem value={3}>3 Options</MenuItem>
-                                            <MenuItem value={4}>4 Options</MenuItem>
-                                            <MenuItem value={5}>5 Options</MenuItem>
-                                        </Select>
-                                    </FormControl>
-                                    <FormControl fullWidth size="small">
-                                        <InputLabel>Correct Answers</InputLabel>
-                                        <Select
-                                            value={questionConfigs[type]?.correctAnswers || 1}
-                                            onChange={(e) => updateConfig(type, 'correctAnswers', e.target.value)}
-                                            label="Correct Answers"
-                                        >
-                                            <MenuItem value={1}>Single Answer</MenuItem>
-                                            <MenuItem value={2}>Multiple Answers</MenuItem>
-                                        </Select>
-                                    </FormControl>
+                                    <CommonSelect
+                                        name={`options-${type}`}
+                                        label="Options per Question"
+                                        value={questionConfigs[type]?.options || 4}
+                                        onChange={(e) => updateConfig(type, 'options', e.target.value)}
+                                        size="small"
+                                        sx={{ mb: 0 }}
+                                    >
+                                        <MenuItem value={2}>2 Options</MenuItem>
+                                        <MenuItem value={3}>3 Options</MenuItem>
+                                        <MenuItem value={4}>4 Options</MenuItem>
+                                        <MenuItem value={5}>5 Options</MenuItem>
+                                    </CommonSelect>
+                                    <CommonSelect
+                                        name={`correctAnswers-${type}`}
+                                        label="Correct Answers"
+                                        value={questionConfigs[type]?.correctAnswers || 1}
+                                        onChange={(e) => updateConfig(type, 'correctAnswers', e.target.value)}
+                                        size="small"
+                                        sx={{ mb: 0 }}
+                                    >
+                                        <MenuItem value={1}>Single Answer</MenuItem>
+                                        <MenuItem value={2}>Multiple Answers</MenuItem>
+                                    </CommonSelect>
                                 </Box>
                             </Grid>
                         )}

@@ -2,11 +2,9 @@
 import {
     Box,
     Button,
-    FormControl,
+    CommonSelect,
     FormControlLabel,
-    InputLabel,
     MenuItem,
-    Select,
     Slider,
     Switch,
     TextField,
@@ -34,20 +32,19 @@ const BasicInfoStep = ({ formData, updateFormData, difficultyLevels, onNext }) =
                 onChange={(e) => updateFormData('description', e.target.value)}
                 sx={{ mb: 2 }}
             />
-            <FormControl fullWidth sx={{ mb: 2 }}>
-                <InputLabel>Difficulty Level</InputLabel>
-                <Select
-                    label="Difficulty Level"
-                    value={formData.difficulty}
-                    onChange={(e) => updateFormData('difficulty', e.target.value)}
-                >
-                    {difficultyLevels.map((level) => (
-                        <MenuItem key={level} value={level} sx={{ textTransform: 'capitalize' }}>
-                            {level}
-                        </MenuItem>
-                    ))}
-                </Select>
-            </FormControl>
+            <CommonSelect
+                name="difficulty"
+                label="Difficulty Level"
+                value={formData.difficulty}
+                onChange={(e) => updateFormData('difficulty', e.target.value)}
+                sx={{ mb: 2 }}
+            >
+                {difficultyLevels.map((level) => (
+                    <MenuItem key={level} value={level} sx={{ textTransform: 'capitalize' }}>
+                        {level}
+                    </MenuItem>
+                ))}
+            </CommonSelect>
             <Box sx={{ mb: 2 }}>
                 <Typography gutterBottom>Duration (minutes)</Typography>
                 <Slider
