@@ -6,17 +6,6 @@ import TabPanel from './TabPanel';
 const AssessmentGrid = ({ assessments, selectedTab, onStart, onBookmark, onEdit, onDelete, onDuplicate }) => {
     const navigate = useNavigate();
 
-    const filterByStatus = (status) => {
-        if (selectedTab === 0) return assessments;
-        const statusMap = {
-            1: 'active',
-            2: 'draft',
-            3: 'archived'
-        };
-        return assessments?.filter(a => a.status === statusMap[selectedTab]) || [];
-    };
-    const filteredAssessments = filterByStatus(selectedTab);
-
     const handleEdit = (assessmentId) => {
         navigate(`/assessments/edit/${assessmentId}`);
     };
@@ -34,8 +23,8 @@ const AssessmentGrid = ({ assessments, selectedTab, onStart, onBookmark, onEdit,
     };
 
     return (
-        <TabPanel value={selectedTab} index={0}>
-            {filteredAssessments?.length === 0 ? (
+        <TabPanel value={selectedTab} index={selectedTab}>
+            {assessments?.length === 0 ? (
                 <Box sx={{ textAlign: 'center', py: 8 }}>
                     <Typography variant="h6" color="text.secondary" gutterBottom>
                         No assessments found
@@ -50,8 +39,8 @@ const AssessmentGrid = ({ assessments, selectedTab, onStart, onBookmark, onEdit,
                 </Box>
             ) : (
                 <Grid container spacing={3}>
-                    {filteredAssessments.map((assessment) => (
-                        <Grid item xs={12} md={6} lg={4} key={assessment.id}>
+                    {assessments?.map((assessment) => (
+                        <Grid item xs={12} md={6} lg={4} key={assessment._id || assessment.id}>
                             <AssessmentCard
                                 assessment={assessment}
                                 onStart={onStart}

@@ -36,3 +36,6 @@ export const GET_QUESTIONS_BY_ASSESSMENT = `${AUTH_API_BASE_URL}/questions/asses
 export const UPDATE_QUESTION = `${AUTH_API_BASE_URL}/questions/:questionId`;
 export const DELETE_QUESTION = `${AUTH_API_BASE_URL}/questions/:questionId`;
 export const REORDER_QUESTIONS = `${AUTH_API_BASE_URL}/questions/assessment/:assessmentId/reorder`;
+
+// Welcome API
+export const GET_WELCOME_DATA = `${AUTH_API_BASE_URL}/welcome`;

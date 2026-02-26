@@ -52,7 +52,7 @@ const Assessments = () => {
     } = useSelector(state => state.assessments);
 
     const assessmentsData = assessments?.assessmentsData?.data || [];
-
+    console.log("assessmentsData ", assessmentsData)
     const loadAssessments = () => {
         const statusMap = {
             0: null, // All
@@ -60,12 +60,12 @@ const Assessments = () => {
             2: 'draft',
             3: 'archived'
         };
-
+        console.log("selectedTab ", selectedTab, statusMap[selectedTab])
         const apiFilters = {
-            ...filters,
+            // ...filters,
             status: statusMap[selectedTab],
-            page: pagination.page,
-            limit: pagination.limit
+            // page: pagination.page,
+            // limit: pagination.limit
         };
 
         dispatch(getAssessments(apiFilters));

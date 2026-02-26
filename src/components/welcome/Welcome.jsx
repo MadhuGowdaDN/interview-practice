@@ -21,20 +21,70 @@ import {
     Speed,
     TrendingUp
 } from '@icon';
+import { CircularProgress } from '@mui/material';
 import { useNavigate } from "@react";
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchWelcomeData } from '../../features/welcomeSlice';
+
+const iconMap = {
+    People: <People />,
+    TrendingUp: <TrendingUp />,
+    Security: <Security />,
+    Speed: <Speed />,
+    RocketLaunch: <RocketLaunch />,
+    DashboardIcon: <DashboardIcon />
+};
 
 const Welcome = () => {
     const theme = useTheme();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const { data, loading } = useSelector((state) => state.welcome);
+    const welcomeData = data?.welcomeData;
+    const isLoading = loading?.fetchWelcomeData;
+
+    useEffect(() => {
+        dispatch(fetchWelcomeData());
+    }, [dispatch]);
+
     const handleNavigate = () => {
         navigate("/dashboard");
     }
+
+    if (isLoading) {
+        return (
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', bgcolor: '#f8fafc' }}>
+                <CircularProgress />
+            </Box>
+        );
+    }
+
+    const hero = welcomeData?.hero || {
+        title: "Welcome to AdminHub",
+        subtitle: "The complete dashboard solution for your business needs. Manage users, track analytics, and grow your platform.",
+        icon: "RocketLaunch"
+    };
+
+    const features = welcomeData?.features || [
+        { icon: 'People', title: 'User Management', desc: 'Manage all your users in one place' },
+        { icon: 'TrendingUp', title: 'Analytics', desc: 'Track your growth with detailed reports' },
+        { icon: 'Security', title: 'Security', desc: 'Enterprise-grade security features' },
+        { icon: 'Speed', title: 'Performance', desc: 'Lightning fast dashboard experience' },
+    ];
+
+    const cta = welcomeData?.cta || {
+        title: "Ready to get started?",
+        subtitle: "Join thousands of businesses using AdminHub to manage their operations"
+    };
+
     return (
         <Box sx={{ minHeight: '100vh', bgcolor: '#f8fafc' }}>
             {/* Hero Section */}
             <PageHeader
-                title="Welcome to AdminHub"
-                subtitle="The complete dashboard solution for your business needs. Manage users, track analytics, and grow your platform."
+                title={hero.title}
+                subtitle={hero.subtitle}
                 rightContent={
                     <Paper
                         elevation={24}
@@ -47,7 +97,13 @@ const Welcome = () => {
                             borderColor: alpha('#fff', 0.2)
                         }}
                     >
-                        <RocketLaunch sx={{ fontSize: 120, color: 'white' }} />
+                        {iconMap[hero.icon] ? (
+                            <Box sx={{ '& > svg': { fontSize: 120, color: 'white' } }}>
+                                {iconMap[hero.icon]}
+                            </Box>
+                        ) : (
+                            <RocketLaunch sx={{ fontSize: 120, color: 'white' }} />
+                        )}
                     </Paper>
                 }
             >
@@ -60,6 +116,7 @@ const Welcome = () => {
                         '&:hover': { bgcolor: 'grey.100' }
                     }}
                     startIcon={<DashboardIcon />}
+                    onClick={handleNavigate}
                 >
                     Go to Dashboard
                 </CommonButton>
@@ -79,12 +136,7 @@ const Welcome = () => {
             {/* Features Section */}
             <Container maxWidth="lg" sx={{ py: 8, mt: -6, position: 'relative', zIndex: 1 }}>
                 <Grid container spacing={3}>
-                    {[
-                        { icon: <People />, title: 'User Management', desc: 'Manage all your users in one place' },
-                        { icon: <TrendingUp />, title: 'Analytics', desc: 'Track your growth with detailed reports' },
-                        { icon: <Security />, title: 'Security', desc: 'Enterprise-grade security features' },
-                        { icon: <Speed />, title: 'Performance', desc: 'Lightning fast dashboard experience' },
-                    ].map((feature, index) => (
+                    {features.map((feature, index) => (
                         <Grid item xs={12} sm={6} md={3} key={index}>
                             <CommonCard
                                 premiumGradient={false}
@@ -96,7 +148,7 @@ const Welcome = () => {
                                 }}
                             >
                                 <Avatar sx={{ bgcolor: theme.palette.primary.main, mb: 2 }}>
-                                    {feature.icon}
+                                    {iconMap[feature.icon] || <RocketLaunch />}
                                 </Avatar>
                                 <CommonHeading variant="h6" gutterBottom={true}>
                                     {feature.title}
@@ -114,10 +166,10 @@ const Welcome = () => {
             <Box sx={{ bgcolor: 'white', py: 8 }}>
                 <Container maxWidth="md" sx={{ textAlign: 'center' }}>
                     <CommonHeading variant="h3" sx={{ mb: 3 }}>
-                        Ready to get started?
+                        {cta.title}
                     </CommonHeading>
                     <CommonText variant="body1" muted={true} sx={{ mb: 4, fontSize: '1.2rem' }}>
-                        Join thousands of businesses using AdminHub to manage their operations
+                        {cta.subtitle}
                     </CommonText>
                     <CommonButton
                         variant="contained"

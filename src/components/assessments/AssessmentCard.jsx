@@ -43,7 +43,6 @@ const AssessmentCard = ({ assessment, onStart, onBookmark, onEdit, onDelete, onD
     const handleMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
     };
-
     const handleMenuClose = () => {
         setAnchorEl(null);
     };
@@ -95,6 +94,7 @@ const AssessmentCard = ({ assessment, onStart, onBookmark, onEdit, onDelete, onD
         if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`;
         return date.toLocaleDateString();
     };
+
     return (
         <StyledCard>
             {/* Status Badge */}

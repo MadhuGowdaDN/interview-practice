@@ -152,6 +152,7 @@ export const createDynamicSlice = (sliceConfig) => {
             } else {
               state.successMessage = action.payload?.message;
             }
+            state.errorMessage =""
           })
           .addCase(thunk.rejected, (state, action) => {
             if (loadingKey) {

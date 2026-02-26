@@ -1,20 +1,4 @@
 // src/components/SecureRoute.jsx
-import { chekIsUserActive } from '@features';
-import {
-  Assessment as AssessmentIcon,
-  ChevronLeft as ChevronLeftIcon,
-  ChevronRight as ChevronRightIcon,
-  Code as CodeIcon,
-  Dashboard as DashboardIcon,
-  Logout as LogoutIcon,
-  MenuBook as MenuBookIcon,
-  Menu as MenuIcon,
-  Notifications as NotificationsIcon,
-  Person as PersonIcon,
-  Quiz as QuizIcon,
-  School as SchoolIcon,
-  Settings as SettingsIcon
-} from "@icon";
 import {
   Alert,
   AppBar,
@@ -39,10 +23,25 @@ import {
   useMediaQuery,
   useTheme,
 } from "@common";
+import { chekIsUserActive } from '@features';
+import {
+  Assessment as AssessmentIcon,
+  ChevronLeft as ChevronLeftIcon,
+  ChevronRight as ChevronRightIcon,
+  Code as CodeIcon,
+  Dashboard as DashboardIcon,
+  Logout as LogoutIcon,
+  MenuBook as MenuBookIcon,
+  Menu as MenuIcon,
+  Notifications as NotificationsIcon,
+  Person as PersonIcon,
+  Quiz as QuizIcon,
+  School as SchoolIcon,
+  Settings as SettingsIcon
+} from "@icon";
+import { createContext, Outlet, useContext, useEffect, useLocation, useNavigate, useState } from "@react";
 import axios from 'axios';
-import { createContext, useContext, useEffect, useState } from "@react";
 import { useDispatch } from 'react-redux';
-import { Outlet, useLocation, useNavigate } from "@react";
 
 // Create Auth Context
 const AuthContext = createContext(null);
@@ -89,7 +88,8 @@ const SecureRoute = () => {
   // Mock API call for security check
   const checkAuthentication = async () => {
     dispatch(chekIsUserActive({})).then(res => {
-      if (!res?.payload) {
+      console.log("res ", res?.payload)
+      if (res?.payload !== true) {
         navigate("/");
       }
     })
